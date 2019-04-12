@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    name: Mysql
+    url: jdbc:mysql://127.0.0.1:3306/Mysql?serverTimezone=UTC
+    username: tester
+    password: tang3.14
+    driver-class-name: com.mysql.jdbc.Driver
+  ##view层配置
+  mthymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mvc:
+      static-path-pattern: /static/**
+
+mybatis:
+  ##指向mapper的xml文件位置
+  mapper-locations: /mapper/**.xml
+  ##实体类
+  ##type-aliases-package: com.youyi.dormitory.entity
+  configuration:
+    ##使用jdbc的getGeneratedKeys获取数据库自增主键值
+    use-generated-keys: true
+    ##使用列标签替换列别名 默认:true
+    use-column-label: true
+    ##开启驼峰命名转换:Table{create_time} -> Entity{createTime}
+    map-underscore-to-camel-case: true
+    ##log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
