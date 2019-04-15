@@ -1,29 +1,14 @@
-
--- drop table user_base;
--- drop table user_auth;
-
 -- 用户基础信息
-CREATE TABLE `user_base` (
-                             `uid`              bigint(20)          NOT NULL COMMENT '用户ID',
-                             `user_name`        varchar(32)         NOT NULL DEFAULT '' COMMENT '用户账号，必须唯一',
-                             `nick_name`        varchar(32)         NOT NULL DEFAULT '' COMMENT '用户昵称',
-                             `mobile`           varchar(16)         NOT NULL DEFAULT '' COMMENT '手机号码(唯一)',
-                             `email`            varchar(100)        NOT NULL DEFAULT '' COMMENT '邮箱(唯一)',
-                             `create_time` date NOT NULL COMMENT '创建时间',
-                             `update_time` date NOT NULL COMMENT '修改时间',
-                             PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户基础信息表';
-
-
-
--- 用户登陆表
-CREATE TABLE `user_auth` (
-                             `id`               bigint(20)          NOT NULL AUTO_INCREMENT,
-                             `uid` bigint(20)   unsigned            NOT NULL DEFAULT '0' COMMENT '用户id',
-                             `identity_type`    tinyint(4) unsigned NOT NULL DEFAULT '1' COMMENT '1手机号 2邮箱 3用户名',
-                             `identifier`       varchar(50)         NOT NULL DEFAULT '' COMMENT '手机号 邮箱 用户名的唯一标识',
-                             `password`         varchar(20)         NOT NULL DEFAULT '' COMMENT '密码凭证(站内的保存密码，站外的不保存或保存token)',
-                             PRIMARY KEY (`id`),
-                             UNIQUE KEY `only` (`uid`,`identity_type`),
-                             KEY `idx_uid` (`uid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户授权表'
+CREATE TABLE `the_user` (
+    `uid` int(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+    `user_name`        varchar(32)         NOT NULL DEFAULT '' COMMENT '用户名',
+    `nick_name`        varchar(32)         NOT NULL DEFAULT '' COMMENT '用户昵称',
+    `mobile`           varchar(16)         NOT NULL DEFAULT '' COMMENT '手机号码',
+    `email`            varchar(100)        NOT NULL DEFAULT '' COMMENT '邮箱',
+    `password`         varchar(20)         NOT NULL DEFAULT '' COMMENT '密码',
+    `create_time` date NOT NULL COMMENT '创建时间',
+    `update_time` date NOT NULL COMMENT '修改时间',
+    `status`           tinyint(4)          not null default '0' comment '状态码',
+    PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='用户基础信息表';
+-- drop table the_user;

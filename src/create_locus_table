@@ -1,0 +1,10 @@
+create table `locus`(
+    `lid` int(20) NOT NULL AUTO_INCREMENT COMMENT '地点ID',
+    `locus_name` varchar(32) NOT NULL DEFAULT '' COMMENT '地点名',
+    `locus_temperature` int comment '温度',
+    `locus_humidity` int comment '湿度',
+    `locus_ph` float(4,2) comment '土壤ph',
+    `upload_time` datetime NOT NULL COMMENT '上传时间',
+    primary key (`lid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='节点信息表';
+-- drop table locus;

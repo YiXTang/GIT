@@ -10,7 +10,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    private Long sid;
+    private Integer sid;
 
     /**
      *
@@ -19,7 +19,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    private Long locusId;
+    private Integer locusId;
 
     /**
      *
@@ -65,7 +65,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    public Long getSid() {
+    public Integer getSid() {
         return sid;
     }
 
@@ -77,7 +77,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    public void setSid(Long sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
     }
 
@@ -89,7 +89,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    public Long getLocusId() {
+    public Integer getLocusId() {
         return locusId;
     }
 
@@ -101,7 +101,7 @@ public class Sensor {
      *
      * @mbg.generated
      */
-    public void setLocusId(Long locusId) {
+    public void setLocusId(Integer locusId) {
         this.locusId = locusId;
     }
 
