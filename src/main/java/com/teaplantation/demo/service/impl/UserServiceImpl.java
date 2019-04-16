@@ -25,6 +25,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public  MyResult selectByUsername(String uname){
+        if (uname.equals("")) {
+            return MyResult.notFount("查询学生条件错误");
+        } else {
+            User user = userMapper.selectByUsername(uname);
+            if (user == null) {
+                return MyResult.notFount("查询学生结果为空");
+            } else {
+                return MyResult.ok(user);
+            }
+        }
+    }
+
     @Override
     public MyResult selectByPrimaryKey(int uid) {
         if (uid <= 0) {

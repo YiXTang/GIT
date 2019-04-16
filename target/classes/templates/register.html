@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/user.css"/>
+    <title>用户注册</title>
+
+</head>
+
+<body>
+<form id="registerForm" class="form-signin" action="<%=request.getContextPath() %>/UserController" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal" align="center">注  册</h1>
+    <label for="inputUsername" class="sr-only">User Name</label>
+    <input type="info" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="info" id="inputEmail" class="form-control" placeholder="邮箱" required autofocus>
+
+    <label for="inputPassword" class="sr-only">Password1</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+    <label for="inputPassword" class="sr-only">Password2</label>
+    <input type="password" id="repeatPassword" class="form-control" placeholder="确认密码" required>
+
+    <p id="msg_pwd" style="margin-left: 150px"></p>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="btn_register">注册</button>
+    <p class="mt-5 mb-3 text-muted" align="center">&copy; 2019-{{ 智慧茶园 }}</p>
+</form>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    var params = {};
+    $(document).ready(function() {
+            $("#inputUsername").blur(function () {
+                console.log("失去焦点")
+                console.log(this)
+
+                params.userName= $("#inputUsername").val();
+                params.userEmail=$("#inputEmail").val();
+                params.ipassword= $("#inputPassword").val();
+                params.rpassword= $("#repeatPassword").val();
+
+                if(params.userName == ""){
+                    alert("请输入用户名！");$("#inputUsername").focus;return;
+                }else {
+
+                    $.ajax({
+                        url:"/user/checkUserName",
+                        type:"POST",
+                        dataType:"json",
+                        data:{
+                            "userName":params.userName
+                        },
+                        success:function (data) {
+                            if (data.msg != ""){
+                                console.log("11111111111")
+                            }
+                        },
+                        error:function () {
+                            alert("请求失败！？")
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+            //     alert("888888888888888888888888888888888")
+            //     $('#registerForm').bootstrapValidator({
+            //         message: 'This value is not valid',
+            //         feedbackIcons: {
+            //             valid: 'glyphicon glyphicon-ok',
+            //             invalid: 'glyphicon glyphicon-remove',
+            //             validating: 'glyphicon glyphicon-refresh'
+            //         },
+            //         fields: {
+            //             userName: {
+            //                 message: 'The username is not valid',
+            //                 validators: {
+            //                     notEmpty: {
+            //                         message: '用户名不能为空'
+            //                     },
+            //                     stringLength: {
+            //                         min: 2,
+            //                         max: 12,
+            //                         message: '用户名由2-12位字符组成'
+            //                     },
+            //                     threshold: 2,//有2字符以上才发送ajax请求
+            //                     remote: {//ajax验证。server result:{"valid",true or false}
+            //                         url: "/controller/UserController",
+            //                         message: '用户名已存在,请重新输入',
+            //                         delay: 1000,//ajax刷新的时间是1秒一次
+            //                         type: 'POST',
+            //                         //自定义提交数据，默认值提交当前input value
+            //                         data: function(validator) {
+            //                             condole.log("88888888888888888888888888888888888")
+            //                             return {
+            //                                 userName : $("input[id=inputUsername]").val(),
+            //                                 method : "checkUserName"//UserServlet判断调用方法关键字。
+            //                             };
+            //                         }
+            //                     }
+            //                 }
+            //             },
+            //             userPassword: {
+            //                 validators: {
+            //                     notEmpty: {
+            //                         message: '密码不能为空'
+            //                     },
+            //                     stringLength: {
+            //                         min: 6,
+            //                         max: 10,
+            //                         message: '密码由6-10位字符组成'
+            //                     }
+            //                 }
+            //             },
+            //             confirmUserPassword: {
+            //                 validators: {
+            //                     notEmpty: {
+            //                         message: '密码不能为空'
+            //                     },
+            //                     stringLength: {
+            //                         min: 6,
+            //                         max: 10,
+            //                         message: '密码由6-10位字符组成'
+            //                     },
+            //                     identical: {
+            //                         field: 'userPassword',
+            //                         message: '密码输入不一致'
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     });
+        }
+    )
+
+    $(document).ready(function(){
+        $('#inputPassword').on('input propertychange', function() {
+            //input propertychange即实时监控键盘输入包括粘贴
+            var pwd = $.trim($(this).val());
+            //获取this，即ipwd的val()值，trim函数的作用是去除空格
+            var rpwd = $.trim($("#repeatPassword").val());
+            if(rpwd!=""){
+                if(pwd==""&&rpwd==""){
+                    //若都为空，则提示密码不能为空，为了用户体验（在界面上用required同时做了处理）
+                    $("#msg_pwd").html("<font color='red'>密码不能为空</font>");
+                }
+                else{
+                    if(pwd==rpwd){                                 //相同则提示密码匹配
+                        $("#msg_pwd").html("<font color='green'>两次密码匹配通过</font>");
+                        $("#btn_register").attr("disabled",false); //使按钮无法点击
+                    }else{                                          //不相同则提示密码匹配
+                        $("#msg_pwd").html("<font color='red'>两次密码不匹配</font>");
+                        $("#btn_register").attr("disabled",true);
+                    }
+                }}
+        })
+    })
+
+    //由于是两个输入框，所以进行两个输入框的几乎相同的判断
+    $(document).ready(function(){
+        $('#repeatPassword').on('input propertychange', function() {
+            var pwd = $.trim($(this).val());
+            var rpwd = $.trim($("#inputPassword").val());
+            if(pwd==""&&rpwd==""){
+                $("#msg_pwd").html("<font color='red'>密码不能为空</font>");
+            }
+            else{
+                if(pwd==rpwd){
+                    $("#msg_pwd").html("<font color='green'>两次密码匹配通过</font>");
+                    $("#btn_register").attr("disabled",false);
+                }else{
+                    $("#msg_pwd").html("<font color='red'>两次密码不匹配</font>");
+                    $("#btn_register").attr("disabled",true);
+                }
+            }
+        })
+    })
+</script>
+
+</body>
+
+</html>
