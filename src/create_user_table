@@ -6,9 +6,12 @@ CREATE TABLE `the_user` (
     `mobile`           varchar(16)         NOT NULL DEFAULT '' COMMENT '手机号码',
     `email`            varchar(100)        NOT NULL DEFAULT '' COMMENT '邮箱',
     `password`         varchar(20)         NOT NULL DEFAULT '' COMMENT '密码',
-    `create_time` date NOT NULL COMMENT '创建时间',
-    `update_time` date NOT NULL COMMENT '修改时间',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '修改时间',
     `status`           tinyint(4)          not null default '0' comment '状态码',
     PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='用户基础信息表';
+select * from the_user;
+insert into the_user values (0,"tangyixiong","admin","18373150226","1185384223@qq.com",
+                             "tang3.14","2019-04-17 02-22-22","2019-04-17 02-22-22",1)
 -- drop table the_user;

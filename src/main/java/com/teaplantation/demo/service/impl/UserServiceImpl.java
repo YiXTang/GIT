@@ -27,11 +27,11 @@ public class UserServiceImpl implements UserService {
 
     public  MyResult selectByUsername(String uname){
         if (uname.equals("")) {
-            return MyResult.notFount("查询学生条件错误");
+            return MyResult.notFount("查询条件错误");
         } else {
             User user = userMapper.selectByUsername(uname);
             if (user == null) {
-                return MyResult.notFount("查询学生结果为空");
+                return MyResult.notFount("用户不存在");
             } else {
                 return MyResult.ok(user);
             }
@@ -58,14 +58,14 @@ public class UserServiceImpl implements UserService {
             return MyResult.notFount("插入用户为空");
         }else{
             try{
-                int effectedNum = userMapper.insert(user);
+                int effectedNum = userMapper.insertUser(user);
                 if (effectedNum>0){
                     return MyResult.ok();
                 }else {
                     return MyResult.notFount("添加用户失败");
                 }
             }catch (Exception e){
-                throw new MyException("插入学生错误："+e.getMessage());
+                throw new MyException("插入用户错误："+e.getMessage());
             }
         }
     }

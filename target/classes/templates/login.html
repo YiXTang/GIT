@@ -1,44 +1,101 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/signin.css">
-
-    <title>茶园登陆</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/user.css"/>
+    <title>登录页</title>
 
 </head>
-<body>
-<form class="form-signin">
-    <!--        <img class="mb-4" src="images/bootstrap-solid.svg" alt="" width="72" height="72" align="center">-->
-    <h1 class="h3 mb-3 font-weight-normal" align="center">登  录</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="用户名" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-    </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
-    <p class="mt-5 mb-3 text-muted" align="center">&copy; 2019-{{ 智慧茶园登陆 }}</p>
+<body>
+<form id="registerForm" class="form-signin" action="<%=request.getContextPath() %>/UserController" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal" align="center">登   陆</h1>
+    <label for="inputUsername" class="sr-only">User Name</label>
+    <input type="info" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
+    <p id="msg_uname" align="center"></p>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="btn_register">Sign in</button>
+    <p class="mt-5 mb-3 text-muted" align="center">&copy; 2019-{{ 智慧茶园 }}</p>
 </form>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<!--    <script type="text/javascript" >-->
-<!--        var t=new Date();-->
-<!--        document.write();-->
-<!--    </script>-->
+
+<script type="text/javascript">
+    var params = {};
+    params.userName;
+    params.userEmail;
+    params.ipassword;
+    params.rpassword;
+
+    //在输入时判断用户是否存在
+    $(document).ready(function() {
+        $("#inputUsername").blur(function () {
+            console.log(this+"失去焦点")
+            params.userName = $("#inputUsername").val();
+            if (params.userName == "") {
+                $("#msg_uname").html("<font color='red'>用户名不能为空</font>");
+                $("#inputUsername").focus();
+                return;
+            } else {
+                $.ajax({
+                    url: "/user/checkUserName",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "userName": params.userName
+                    },
+                    success: function (data) {
+                        if (data.msg =="OK") {
+
+                            $("#msg_uname").html("<font color='green'>妥</font>");
+                        }else {
+                            $("#msg_uname").html("<font color='red'>用户不存在</font>");
+                        }
+                    },
+                    error: function () {
+                        $("#msg_uname").html("<font color='red'>请求失败！？</font>");
+                    }
+                });
+            }
+        });
+
+        $("#btn_register").click(function () {
+            params.userName = $("#inputUsername").val();
+            params.password = $("#inputPassword").val();
+            if(params.userName==""|params.ipassword==""|params.rpassword==""){
+                alert("用户名与密码都不能为空")
+            }else {
+                $.ajax({
+                    url: "/user/login",
+                    type: "POST",
+                    data: {
+                        "userName": params.userName,
+                        "password": params.password
+                    },
+                    success: function (data) {
+                        alert("登录成功！")
+                        window.location.href="/locus_info.html"
+                    },
+                    error: function (data) {
+                        alert("ajax请求失败")
+                        window.location.href=data
+                    }
+                });
+            }
+        })
+    })
+
+</script>
 
 </body>
 

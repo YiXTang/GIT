@@ -2942,14 +2942,14 @@ Table_name</ColNames>
     <column id="566" parent="305" name="create_time">
       <Position>7</Position>
       <Comment>创建时间</Comment>
-      <DataType>date|0s</DataType>
+      <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="567" parent="305" name="update_time">
       <Position>8</Position>
       <Comment>修改时间</Comment>
-      <DataType>date|0s</DataType>
+      <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>

@@ -16,10 +16,10 @@
 
     <h1 class="h3 mb-3 font-weight-normal" align="center">注  册</h1>
     <label for="inputUsername" class="sr-only">User Name</label>
-    <input type="info" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
+    <input type="info" id="inputUsername" class="form-control" placeholder="请输入用户名(唯一)" required autofocus>
     <p id="msg_uname" align="center"></p>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="info" id="inputEmail" class="form-control" placeholder="邮箱" required autofocus>
+    <input type="info" id="inputEmail" class="form-control" placeholder="邮箱（可选）" required autofocus>
 
     <label for="inputPassword" class="sr-only">Password1</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
@@ -39,15 +39,16 @@
 
 <script type="text/javascript">
     var params = {};
+    params.userName;
+    params.userEmail;
+    params.ipassword;
+    params.rpassword;
+
+    //在输入时判断用户名是否可用
     $(document).ready(function() {
         $("#inputUsername").blur(function () {
             console.log(this+"失去焦点")
-
             params.userName = $("#inputUsername").val();
-            params.userEmail = $("#inputEmail").val();
-            params.ipassword = $("#inputPassword").val();
-            params.rpassword = $("#repeatPassword").val();
-
             if (params.userName == "") {
                 $("#msg_uname").html("<font color='red'>用户名不能为空</font>");
                 $("#inputUsername").focus();
@@ -61,12 +62,48 @@
                         "userName": params.userName
                     },
                     success: function (data) {
-                        if (data.msg != "") {
-                            console.log("11111111111")
+                        if (data.msg!="OK") {
+                            $("#msg_uname").html("<font color='green'>可用</font>");
+                        }else {
+                            console.log(data.msg)
+                            $("#msg_uname").html("<font color='red'>该用户名不可用</font>");
                         }
                     },
                     error: function () {
                         $("#msg_uname").html("<font color='red'>请求失败！？</font>");
+                    }
+                });
+            }
+        });
+        
+        
+        $("#btn_register").click(function () {
+            params.userName = $("#inputUsername").val();
+            params.userEmail = $("#inputEmail").val();
+            params.ipassword = $("#inputPassword").val();
+            params.rpassword = $("#repeatPassword").val();
+            if(params.userName==""|params.ipassword==""|params.rpassword==""){
+                alert("用户名与密码都不能为空")
+            }else {
+                $.ajax({
+                    url: "/user/register",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "userName": params.userName,
+                        "userEmail":params.userEmail,
+                        "password": params.ipassword
+                    },
+                    success: function (data) {
+                        if (data.msg=="OK") {
+                            alert("注册成功")
+
+                        }else {
+                            alert("因为 "+data.msg+" 注册失败")
+                        }
+                    },
+                    error: function () {
+                        alert("ajax请求失败")
                     }
                 });
             }
@@ -94,7 +131,6 @@
                 }}
         })
     })
-
     //由于是两个输入框，所以进行两个输入框的几乎相同的判断
     $(document).ready(function(){
         $('#repeatPassword').on('input propertychange', function() {
@@ -114,6 +150,7 @@
             }
         })
     })
+    
 </script>
 
 </body>
